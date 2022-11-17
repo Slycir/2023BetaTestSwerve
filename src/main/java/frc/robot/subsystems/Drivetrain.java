@@ -48,7 +48,7 @@ public class Drivetrain extends SubsystemBase {
     Constants.CANConstants.kFrontLeftDriveMotorID,
     Constants.CANConstants.kFrontLeftSteerMotorID,
     Constants.CANConstants.kFrontLeftEncoderID,
-    Constants.CANConstants.kFrontLeftEncoderOffset
+    Constants.DriveConstants.kFrontLeftEncoderOffset
   );
 
   m_frontRight = Mk4iSwerveModuleHelper.createNeo(
@@ -56,7 +56,7 @@ public class Drivetrain extends SubsystemBase {
     Constants.CANConstants.kFrontRightDriveMotorID,
     Constants.CANConstants.kFrontRightSteerMotorID,
     Constants.CANConstants.kFrontRightEncoderID,
-    Constants.CANConstants.kFrontRightEncoderOffset
+    Constants.DriveConstants.kFrontRightEncoderOffset
   );
 
   m_backLeft = Mk4iSwerveModuleHelper.createNeo(
@@ -64,7 +64,7 @@ public class Drivetrain extends SubsystemBase {
     Constants.CANConstants.kBackLeftDriveMotorID,
     Constants.CANConstants.kBackLeftSteerMotorID,
     Constants.CANConstants.kBackLeftEncoderID,
-    Constants.CANConstants.kBackLeftEncoderOffset
+    Constants.DriveConstants.kBackLeftEncoderOffset
   );
 
   m_backRight = Mk4iSwerveModuleHelper.createNeo(
@@ -72,7 +72,7 @@ public class Drivetrain extends SubsystemBase {
     Constants.CANConstants.kBackRightDriveMotorID,
     Constants.CANConstants.kBackRightSteerMotorID,
     Constants.CANConstants.kBackRightEncoderID,
-    Constants.CANConstants.kBackRightEncoderOffset
+    Constants.DriveConstants.kBackRightEncoderOffset
   );
   }
 
@@ -100,7 +100,7 @@ public class Drivetrain extends SubsystemBase {
     m_backRight.set(moduleStates[3].speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond * Constants.DriveConstants.kMaxVoltage, moduleStates[3].angle.getRadians());
 
     // Odometry is a bit broken when used with the SDS helper right now, so we're not using it yet
-    // We'll use it when it's fixed
+    // We'll use it when/if it's fixed
     // m_odometry.update(getGyroRotation(), moduleStates[1], moduleStates[2], moduleStates[3]);
   }
 }

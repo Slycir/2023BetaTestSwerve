@@ -39,11 +39,6 @@ public final class Constants {
         // public static final int kFrontRightEncoderReversed = 1;
         // public static final int kBackRightEncoderReversed = 1;
     
-        public static final double kFrontLeftEncoderOffset = 0;
-        public static final double kBackLeftEncoderOffset = 0;
-        public static final double kFrontRightEncoderOffset = 0;
-        public static final double kBackRightEncoderOffset = 0;
-    
         public static final double kWheelDiameterMeters = SdsModuleConfigurations.MK4_L2.getWheelDiameter();
         public static final double kEncoderResolution = 4096;
         public static final double kEncoderDistancePerPulse =
@@ -67,6 +62,11 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond /
             Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0);
         public static final double kMaxVoltage = 12;
+        
+        public static final double kFrontLeftEncoderOffset = 0;
+        public static final double kBackLeftEncoderOffset = 0;
+        public static final double kFrontRightEncoderOffset = 0;
+        public static final double kBackRightEncoderOffset = 0;
     }
 }
 
