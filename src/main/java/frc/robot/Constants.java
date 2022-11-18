@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -39,10 +37,9 @@ public final class Constants {
         // public static final int kFrontRightEncoderReversed = 1;
         // public static final int kBackRightEncoderReversed = 1;
     
-        public static final double kWheelDiameterMeters = SdsModuleConfigurations.MK4_L2.getWheelDiameter();
         public static final double kEncoderResolution = 4096;
         public static final double kEncoderDistancePerPulse =
-            (kWheelDiameterMeters * Math.PI) / kEncoderResolution;
+            (MeasurementConstants.kWheelDiameterMeters * Math.PI) / kEncoderResolution;
     }
 
     public static final class MeasurementConstants {
@@ -57,11 +54,14 @@ public final class Constants {
     }
     
     public static final class DriveConstants {
+        public static final double kDriveReduction = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); 
+        public static final double kSteerReduction = (14.0 / 50.0) * (10.0 / 60.0); 
+        
         public static final double kDriveDeadband = 0.02;
 
         public static final double kMaxSpeedMetersPerSecond = 5880 / 60.0 *
-            SdsModuleConfigurations.MK4I_L2.getDriveReduction() *
-            CANConstants.kWheelDiameterMeters * Math.PI;
+            kDriveReduction *
+            MeasurementConstants.kWheelDiameterMeters * Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond /
             Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0);
         public static final double kMaxVoltage = 12;
@@ -77,8 +77,6 @@ public final class Constants {
         public static final double kSteerI = 0.0;
         public static final double kSteerD = 0.1;
 
-        public static final double kDriveReduction = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); 
-        public static final double kSteerReduction = (14.0 / 50.0) * (10.0 / 60.0); 
     }
 }
 
