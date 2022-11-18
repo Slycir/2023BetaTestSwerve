@@ -32,11 +32,6 @@ public final class Constants {
         public static final int kFrontRightEncoderID = 11;
         public static final int kBackRightEncoderID = 12;
     
-        // public static final int kFrontLeftEncoderReversed = 1;
-        // public static final int kBackLeftEncoderReversed = 1;
-        // public static final int kFrontRightEncoderReversed = 1;
-        // public static final int kBackRightEncoderReversed = 1;
-    
         public static final double kEncoderResolution = 4096;
         public static final double kEncoderDistancePerPulse =
             (MeasurementConstants.kWheelDiameterMeters * Math.PI) / kEncoderResolution;
@@ -64,6 +59,7 @@ public final class Constants {
             MeasurementConstants.kWheelDiameterMeters * Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond /
             Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0);
+        public static final double kSpeedFactor = 1.0;
         public static final double kMaxVoltage = 12;
         public static final int kDriveCurrentLimit = 80;
         public static final int kSteerCurrentLimit = 20;
@@ -77,6 +73,7 @@ public final class Constants {
         public static final double kSteerI = 0.0;
         public static final double kSteerD = 0.1;
 
+        public static final double kAccelerationSeconds = 0.5; // 0.5 seconds to reach full speed
     }
 }
 

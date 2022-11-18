@@ -30,7 +30,7 @@ public class SwerveModule extends SubsystemBase {
 
   private final double m_steerEncoderOffset;
 
-  private final SwerveModulePosition m_modulePosition;
+  private SwerveModulePosition m_modulePosition;
 
   /** Creates a new SwerveModule. */
   public SwerveModule(int driveMotorID, int steerMotorID, int steerEncoderID, double steerEncoderOffset) {

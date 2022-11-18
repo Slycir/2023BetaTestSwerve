@@ -24,9 +24,9 @@ public class Drive extends CommandBase {
   double m_ySpeed;
   double m_thetaSpeed;
 
-  private final SlewRateLimiter m_xLimiter = new SlewRateLimiter(2);
-  private final SlewRateLimiter m_yLimiter = new SlewRateLimiter(2);
-  private final SlewRateLimiter m_thetaLimiter = new SlewRateLimiter(2);
+  private final SlewRateLimiter m_xLimiter = new SlewRateLimiter(1 / Constants.DriveConstants.kAccelerationSeconds);
+  private final SlewRateLimiter m_yLimiter = new SlewRateLimiter(1 / Constants.DriveConstants.kAccelerationSeconds);
+  private final SlewRateLimiter m_thetaLimiter = new SlewRateLimiter(1 / Constants.DriveConstants.kAccelerationSeconds);
   /** Creates a new Drive. */
   public Drive(Drivetrain drivetrain, DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -48,15 +48,15 @@ public class Drive extends CommandBase {
   public void execute() {
     m_xSpeed =
       -m_xLimiter.calculate(MathUtil.applyDeadband(m_y.getAsDouble(), Constants.DriveConstants.kDriveDeadband))
-      * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+      * Constants.DriveConstants.kMaxSpeedMetersPerSecond * Constants.DriveConstants.kSpeedFactor;
     
     m_ySpeed =
       -m_yLimiter.calculate(MathUtil.applyDeadband(m_x.getAsDouble(), Constants.DriveConstants.kDriveDeadband))
-      * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+      * Constants.DriveConstants.kMaxSpeedMetersPerSecond * Constants.DriveConstants.kSpeedFactor;
 
     m_thetaSpeed =
       -m_thetaLimiter.calculate(MathUtil.applyDeadband(m_theta.getAsDouble(), Constants.DriveConstants.kDriveDeadband))
-      * Constants.DriveConstants.kMaxAngularSpeedRadiansPerSecond;
+      * Constants.DriveConstants.kMaxAngularSpeedRadiansPerSecond * Constants.DriveConstants.kSpeedFactor;
 
     m_drivetrain.drive(m_xSpeed, m_ySpeed, m_thetaSpeed);
   }
