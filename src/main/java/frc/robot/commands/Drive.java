@@ -47,11 +47,11 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     m_xSpeed =
-      -m_xLimiter.calculate(MathUtil.applyDeadband(m_x.getAsDouble(), Constants.DriveConstants.kDriveDeadband))
+      -m_xLimiter.calculate(MathUtil.applyDeadband(m_y.getAsDouble(), Constants.DriveConstants.kDriveDeadband))
       * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
     
     m_ySpeed =
-      -m_yLimiter.calculate(MathUtil.applyDeadband(m_y.getAsDouble(), Constants.DriveConstants.kDriveDeadband))
+      -m_yLimiter.calculate(MathUtil.applyDeadband(m_x.getAsDouble(), Constants.DriveConstants.kDriveDeadband))
       * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
 
     m_thetaSpeed =
