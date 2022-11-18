@@ -49,6 +49,7 @@ public final class Constants {
         // This is based on the CAD model
         public static final double kTrackWidthMeters = 0.629; // 24.75 inches - distance between left and right wheels
         public static final double kWheelBaseMeters = 0.629; // 24.75 inches - distance between front and back wheels
+        public static final double kWheelDiameterMeters = 0.10033; // 4 inches - diameter of the wheels
     }
     
     public static final class OIConstants {
@@ -56,17 +57,28 @@ public final class Constants {
     }
     
     public static final class DriveConstants {
+        public static final double kDriveDeadband = 0.02;
+
         public static final double kMaxSpeedMetersPerSecond = 5880 / 60.0 *
             SdsModuleConfigurations.MK4I_L2.getDriveReduction() *
             CANConstants.kWheelDiameterMeters * Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond /
             Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0);
         public static final double kMaxVoltage = 12;
+        public static final int kDriveCurrentLimit = 80;
+        public static final int kSteerCurrentLimit = 20;
         
         public static final double kFrontLeftEncoderOffset = 0;
         public static final double kBackLeftEncoderOffset = 0;
         public static final double kFrontRightEncoderOffset = 0;
         public static final double kBackRightEncoderOffset = 0;
+
+        public static final double kSteerP = 1.0;
+        public static final double kSteerI = 0.0;
+        public static final double kSteerD = 0.1;
+
+        public static final double kDriveReduction = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); 
+        public static final double kSteerReduction = (14.0 / 50.0) * (10.0 / 60.0); 
     }
 }
 
