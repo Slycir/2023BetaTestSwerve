@@ -14,6 +14,9 @@ package frc.robot;
  */
 public final class Constants {
 
+    public static final String kRotUnits = "degrees";
+    public static final String kDisUnits = "meters";
+
     // CAN IDs are not final
     // They are subject to change when the chassis is built
     public static final class CANConstants {
@@ -49,25 +52,27 @@ public final class Constants {
     }
     
     public static final class DriveConstants {
-        public static final double kDriveReduction = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); 
-        public static final double kSteerReduction = (14.0 / 50.0) * (10.0 / 60.0); 
+        public static final double kFrictionFactor = 1.0;
+        
+        public static final double kDriveReduction = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); // Wheel revolutions per motor revolution`
+        public static final double kSteerReduction = (14.0 / 50.0) * (10.0 / 60.0); // Module revolutions per motor revolution
         
         public static final double kDriveDeadband = 0.02;
 
         public static final double kMaxSpeedMetersPerSecond = 5880 / 60.0 *
             kDriveReduction *
-            MeasurementConstants.kWheelDiameterMeters * Math.PI;
+            MeasurementConstants.kWheelDiameterMeters * Math.PI; // ~ 4.6 m/s
         public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond /
-            Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0);
-        public static final double kSpeedFactor = 1.0;
+            Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0); 
+        public static final double kSpeedFactor = 1.0; // Used to scale the speed of the robot
         public static final double kMaxVoltage = 12;
         public static final int kDriveCurrentLimit = 80;
         public static final int kSteerCurrentLimit = 20;
         
-        public static final double kFrontLeftEncoderOffset = 0;
-        public static final double kBackLeftEncoderOffset = 0;
-        public static final double kFrontRightEncoderOffset = 0;
-        public static final double kBackRightEncoderOffset = 0;
+        public static final double kFrontLeftEncoderOffset = 0; // Must de degrees
+        public static final double kBackLeftEncoderOffset = 0; // Must de degrees
+        public static final double kFrontRightEncoderOffset = 0; // Must de degrees
+        public static final double kBackRightEncoderOffset = 0; // Must de degrees
 
         public static final double kSteerP = 1.0;
         public static final double kSteerI = 0.0;

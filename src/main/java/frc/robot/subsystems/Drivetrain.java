@@ -8,7 +8,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.CANConstants;
-
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -82,6 +82,14 @@ public class Drivetrain extends SubsystemBase {
       m_backLeft.getPosition(),
       m_backRight.getPosition()
     );
+  }
+  
+  public void setFieldPosition(Pose2d pose) {
+    m_odometry.resetPosition(pose, getGyroRotation2d());
+  }
+
+  public Pose2d getFieldPosition() {
+    return m_odometry.getPoseMeters();
   }
 
   public void drive(double xSpeed, double ySpeed, double rot) {

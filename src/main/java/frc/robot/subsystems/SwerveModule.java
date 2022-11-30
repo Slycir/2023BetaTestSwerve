@@ -39,7 +39,7 @@ public class SwerveModule extends SubsystemBase {
 
     m_driveEncoder = m_driveMotor.getEncoder();
     m_steerIntegratedEncoder = m_steerMotor.getEncoder();
-    m_steerEncoder = new CANCoder(steerEncoderID);
+    m_steerEncoder = new CANCoder(steerEncoderID); // TODO: Configure the CANCoder to not reset on power cycle, unsigned angle return
 
     motorInitialize(m_driveMotor);
     motorInitialize(m_steerMotor);
@@ -47,20 +47,21 @@ public class SwerveModule extends SubsystemBase {
     m_driveMotor.setSmartCurrentLimit(Constants.DriveConstants.kDriveCurrentLimit);
 
     m_steerMotor.setSmartCurrentLimit(Constants.DriveConstants.kSteerCurrentLimit);
+      
+    double positionConversionFactor = Math.PI * Constants.MeasurementConstants.kWheelDiameterMeters * Constants.DriveConstants.kDriveReduction; 
+    m_driveEncoder.setPositionConversionFactor(positionConversionFactor); // Gives meters
+    m_driveEncoder.setVelocityConversionFactor(positionConversionFactor / 60.0); // Gives meters per second
 
-    double positionConversionFactor = Math.PI * Constants.MeasurementConstants.kWheelDiameterMeters * Constants.DriveConstants.kDriveReduction;
-    m_driveEncoder.setPositionConversionFactor(positionConversionFactor);
-    m_driveEncoder.setVelocityConversionFactor(positionConversionFactor / 60.0);
-
-    positionConversionFactor = Math.PI * 2.0 * Constants.DriveConstants.kSteerReduction;
-    m_steerIntegratedEncoder.setPositionConversionFactor(positionConversionFactor);
-    m_steerIntegratedEncoder.setVelocityConversionFactor(positionConversionFactor / 60.0);
+    positionConversionFactor = 360 * Constants.DriveConstants.kSteerReduction; 
+    m_steerIntegratedEncoder.setPositionConversionFactor(positionConversionFactor); // Gives degrees
+    m_steerIntegratedEncoder.setVelocityConversionFactor(positionConversionFactor / 60.0); // Gives degrees per second
     m_steerIntegratedEncoder.setPosition(m_steerEncoder.getAbsolutePosition());
 
     m_steerPIDController = m_steerMotor.getPIDController();
 
     m_steerEncoderOffset = steerEncoderOffset;
 
+    // TODO: Set PID constants
     m_steerPIDController.setP(Constants.DriveConstants.kSteerP);
     m_steerPIDController.setI(Constants.DriveConstants.kSteerI);
     m_steerPIDController.setD(Constants.DriveConstants.kSteerD);
