@@ -79,7 +79,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void updatePosition(){
-    m_modulePosition.angle = new Rotation2d(getSteerAngle());
+    m_modulePosition.angle = getSteerAngle();
     m_modulePosition.distanceMeters = getDriveDistance();
   }
 
@@ -88,13 +88,13 @@ public class SwerveModule extends SubsystemBase {
     return m_modulePosition;
   }
 
-  public double getSteerAngle(){
+  public Rotation2d getSteerAngle(){
     double angle = m_steerIntegratedEncoder.getPosition() - m_steerEncoderOffset;
     angle = Math.IEEEremainder(angle, 360);
     if(angle < 0){
       angle += 360;
     }
-    return angle;
+    return Rotation2d.fromDegrees(angle); 
   }
 
   public double getDriveDistance(){
@@ -102,11 +102,11 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public SwerveModuleState getModuleState(){
-    return new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(), new Rotation2d(getSteerAngle()));
+    return new SwerveModuleState(m_driveMotor.getEncoder().getVelocity(), getSteerAngle());
   }
 
   public void setDesiredState(SwerveModuleState state) {
-    state = SwerveModuleState.optimize(state, new Rotation2d(getSteerAngle()));
+    state = SwerveModuleState.optimize(state, getSteerAngle());
     m_driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     m_steerPIDController.setReference(state.angle.getDegrees() + m_steerEncoderOffset, CANSparkMax.ControlType.kPosition);
   }
