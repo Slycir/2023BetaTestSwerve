@@ -82,6 +82,11 @@ public class SwerveModule extends SubsystemBase {
     m_steerIntegratedEncoder.setPosition(m_steerEncoder.getAbsolutePosition());
   }
 
+  public void stop(){
+    m_driveMotor.set(0);
+    m_steerMotor.set(0);
+  }
+
   public void updatePosition(){
     m_modulePosition.angle = getSteerAngle();
     m_modulePosition.distanceMeters = getDriveDistance();

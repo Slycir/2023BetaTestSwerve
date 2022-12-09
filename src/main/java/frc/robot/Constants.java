@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -74,19 +79,27 @@ public final class Constants {
         public static final double kFrontRightEncoderOffset = 0; // Must de degrees
         public static final double kBackRightEncoderOffset = 0; // Must de degrees
 
+        // TODO: Tune PID values
         public static final double kSteerP = 1.0;
         public static final double kSteerI = 0.0; // Used in module control
         public static final double kSteerD = 0.1;
 
-        public static final double kDriveP = 1.0;
+        public static final double kDriveP = 5.0;
         public static final double kDriveI = 0.0; // Used in pose control
-        public static final double kDriveD = 0.1;
+        public static final double kDriveD = 0.0;
 
-        public static final double kTurnP = 1.0;
+        public static final double kTurnP = 0.5;
         public static final double kTurnI = 0.0; // Used in pose control
-        public static final double kTurnD = 0.1;
+        public static final double kTurnD = 0.0;
 
         public static final double kAccelerationSeconds = 0.5; // 0.5 seconds to reach full speed
+    }
+
+    public static HashMap<String, Command> getAutonomousEvents() {
+        HashMap<String, Command> events = new HashMap<String, Command>();
+        // events.put("Event Name", new EventCommand());
+        events.put("PrintTest", new InstantCommand(() -> System.out.println("Test")));
+        return events;
     }
 }
 

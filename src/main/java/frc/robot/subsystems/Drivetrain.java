@@ -5,18 +5,23 @@
 //ALERT: This uses the SDS SwerveLib library, which is not officially supported for 2023. We will likely be switching to the WPILib Swerve Library in the future.
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.CANConstants;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -32,9 +37,13 @@ public class Drivetrain extends SubsystemBase {
     new Translation2d(-Constants.MeasurementConstants.kTrackWidthMeters / 2, -Constants.MeasurementConstants.kWheelBaseMeters / 2)
   );
 
-  private SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(0.0));
+  private SwerveDriveOdometry m_odometry;
 
   private AHRS m_gyro = new AHRS();
+
+  private PIDController xController;
+  private PIDController yController;
+  private PIDController thetaController;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -66,6 +75,7 @@ public class Drivetrain extends SubsystemBase {
       Constants.DriveConstants.kBackRightEncoderOffset
     );
     
+    m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroRotation2d(), getModulePositions());
   }
 
   public void resetModules() { // Call if modules are not in the correct position
@@ -86,11 +96,17 @@ public class Drivetrain extends SubsystemBase {
   public void updateOdometry() {
     m_odometry.update(
       getGyroRotation2d(),
+      getModulePositions()
+    );
+  }
+
+  public SwerveModulePosition[] getModulePositions(){
+    return new SwerveModulePosition[]{
       m_frontLeft.getPosition(),
       m_frontRight.getPosition(),
       m_backLeft.getPosition(),
       m_backRight.getPosition()
-    );
+    };
   }
   
   public void setFieldPosition(Pose2d pose) {
@@ -99,6 +115,13 @@ public class Drivetrain extends SubsystemBase {
 
   public Pose2d getFieldPosition() {
     return m_odometry.getPoseMeters();
+  }
+
+  public void stop(){
+    m_frontLeft.stop();
+    m_frontRight.stop();
+    m_backLeft.stop();
+    m_backRight.stop();
   }
 
   public void drive(double xSpeed, double ySpeed, double rot) {
@@ -111,16 +134,35 @@ public class Drivetrain extends SubsystemBase {
           getGyroRotation2d()
         )
       );
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     
     setModuleStates(swerveModuleStates);
   }
 
   public void setModuleStates(SwerveModuleState[] states) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+
     m_frontLeft.setDesiredState(states[0]);
     m_frontRight.setDesiredState(states[1]);
     m_backLeft.setDesiredState(states[2]);
     m_backRight.setDesiredState(states[3]);
+  }
+
+  public Command createCommandForTrajectory(PathPlannerTrajectory trajectory) {
+    xController = new PIDController(Constants.DriveConstants.kDriveP, 0, 0);
+    yController = new PIDController(Constants.DriveConstants.kDriveP, 0, 0);
+    thetaController = new PIDController(Constants.DriveConstants.kTurnP, 0, 0); //Kp value, Ki=0, Kd=0
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    PPSwerveControllerCommand swerveControllerCommand = new PPSwerveControllerCommand(
+      trajectory,
+      this::getFieldPosition,
+      m_kinematics,
+      xController,
+      yController,
+      thetaController,
+      this::setModuleStates,
+      this);
+    return swerveControllerCommand.andThen(() -> stop());
   }
 
   @Override
