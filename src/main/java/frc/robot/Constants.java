@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.HashMap;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -100,6 +102,15 @@ public final class Constants {
         // events.put("Event Name", new EventCommand());
         events.put("PrintTest", new InstantCommand(() -> System.out.println("Test")));
         return events;
+    }
+
+    public static Pose2d getApriltagPose(int tagID) {
+        switch (tagID) {
+            case 0:
+                return new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0));
+            default:
+                return new Pose2d();
+        }
     }
 }
 

@@ -131,7 +131,7 @@ public class Drivetrain extends SubsystemBase {
           xSpeed,
           ySpeed,
           rot,
-          getGyroRotation2d()
+          m_odometry.getPoseMeters().getRotation()
         )
       );
     
