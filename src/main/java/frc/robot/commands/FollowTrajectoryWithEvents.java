@@ -35,11 +35,11 @@ public class FollowTrajectoryWithEvents extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    PathPlannerTrajectory examplePath = PathPlanner.loadPath(m_trajectoryName, new PathConstraints(4, 3));
+    PathPlannerTrajectory path = PathPlanner.loadPath(m_trajectoryName, new PathConstraints(4, 3));
 
     FollowPathWithEvents followPath = new FollowPathWithEvents(
-      m_drivetrain.createCommandForTrajectory(examplePath), 
-      examplePath.getMarkers(), 
+      m_drivetrain.createCommandForTrajectory(path), 
+      path.getMarkers(), 
       m_events);
     
     followPath.schedule();
