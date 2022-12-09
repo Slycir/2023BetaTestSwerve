@@ -75,8 +75,16 @@ public final class Constants {
         public static final double kBackRightEncoderOffset = 0; // Must de degrees
 
         public static final double kSteerP = 1.0;
-        public static final double kSteerI = 0.0;
+        public static final double kSteerI = 0.0; // Used in module control
         public static final double kSteerD = 0.1;
+
+        public static final double kDriveP = 1.0;
+        public static final double kDriveI = 0.0; // Used in pose control
+        public static final double kDriveD = 0.1;
+
+        public static final double kTurnP = 1.0;
+        public static final double kTurnI = 0.0; // Used in pose control
+        public static final double kTurnD = 0.1;
 
         public static final double kAccelerationSeconds = 0.5; // 0.5 seconds to reach full speed
     }

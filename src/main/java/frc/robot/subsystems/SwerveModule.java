@@ -78,6 +78,10 @@ public class SwerveModule extends SubsystemBase {
     motor.setInverted(true);
   }
 
+  public void reset(){
+    m_steerIntegratedEncoder.setPosition(m_steerEncoder.getAbsolutePosition());
+  }
+
   public void updatePosition(){
     m_modulePosition.angle = getSteerAngle();
     m_modulePosition.distanceMeters = getDriveDistance();
@@ -90,10 +94,6 @@ public class SwerveModule extends SubsystemBase {
 
   public Rotation2d getSteerAngle(){
     double angle = m_steerIntegratedEncoder.getPosition() - m_steerEncoderOffset;
-    angle = Math.IEEEremainder(angle, 360);
-    if(angle < 0){
-      angle += 360;
-    }
     return Rotation2d.fromDegrees(angle); 
   }
 

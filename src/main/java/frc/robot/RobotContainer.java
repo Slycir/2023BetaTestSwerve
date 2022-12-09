@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.commands.Drive;
+import frc.robot.commands.DriveWithJoysticks;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -31,7 +31,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     m_drivetrain.setDefaultCommand(
-      new Drive(
+      new DriveWithJoysticks(
         m_drivetrain,
         () -> m_driverController.getLeftX(),
         () -> m_driverController.getLeftY(),

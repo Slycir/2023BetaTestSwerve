@@ -14,6 +14,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+
 import com.kauailabs.navx.frc.AHRS;
 
 public class Drivetrain extends SubsystemBase {
@@ -66,6 +68,13 @@ public class Drivetrain extends SubsystemBase {
     
   }
 
+  public void resetModules() { // Call if modules are not in the correct position
+    m_frontLeft.reset();
+    m_frontRight.reset();
+    m_backLeft.reset();
+    m_backRight.reset();
+  }
+
   public void zeroGyro() {
     m_gyro.reset();
   }
@@ -93,7 +102,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void drive(double xSpeed, double ySpeed, double rot) {
-    var swerveModuleStates =
+    SwerveModuleState[] swerveModuleStates =
       m_kinematics.toSwerveModuleStates(
         ChassisSpeeds.fromFieldRelativeSpeeds(
           xSpeed,
@@ -104,10 +113,14 @@ public class Drivetrain extends SubsystemBase {
       );
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
-    m_backLeft.setDesiredState(swerveModuleStates[2]);
-    m_backRight.setDesiredState(swerveModuleStates[3]);
+    setModuleStates(swerveModuleStates);
+  }
+
+  public void setModuleStates(SwerveModuleState[] states) {
+    m_frontLeft.setDesiredState(states[0]);
+    m_frontRight.setDesiredState(states[1]);
+    m_backLeft.setDesiredState(states[2]);
+    m_backRight.setDesiredState(states[3]);
   }
 
   @Override

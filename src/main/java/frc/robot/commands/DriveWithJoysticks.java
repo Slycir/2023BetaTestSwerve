@@ -12,7 +12,7 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 
-public class Drive extends CommandBase {
+public class DriveWithJoysticks extends CommandBase {
 
   Drivetrain m_drivetrain;
 
@@ -28,7 +28,7 @@ public class Drive extends CommandBase {
   private final SlewRateLimiter m_yLimiter = new SlewRateLimiter(1 / Constants.DriveConstants.kAccelerationSeconds);
   private final SlewRateLimiter m_thetaLimiter = new SlewRateLimiter(1 / Constants.DriveConstants.kAccelerationSeconds);
   /** Creates a new Drive. */
-  public Drive(Drivetrain drivetrain, DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta) {
+  public DriveWithJoysticks(Drivetrain drivetrain, DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
 
