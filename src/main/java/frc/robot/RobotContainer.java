@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.ModuleCalibration;
+import frc.robot.commands.FollowTrajectoryWithEvents;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.commands.DriveWithJoysticks;
@@ -32,13 +32,13 @@ public class RobotContainer {
   public RobotContainer() {
 
     m_drivetrain.setDefaultCommand(
-      // new DriveWithJoysticks(
-        // m_drivetrain,
-        // () -> m_driverController.getLeftX(),
-        // () -> m_driverController.getLeftY(),
-        // () -> m_driverController.getRightX()
-      // )
-      new ModuleCalibration(m_drivetrain)
+      new DriveWithJoysticks(
+        m_drivetrain,
+        () -> m_driverController.getLeftX(),
+        () -> m_driverController.getLeftY(),
+        () -> m_driverController.getRightX()
+      )
+      // new ModuleCalibration(m_drivetrain)
     );
     // Configure the button bindings
     configureButtonBindings();
@@ -59,6 +59,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return new FollowTrajectoryWithEvents(m_drivetrain, "Test Path");
   }
 }

@@ -9,8 +9,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxPIDController;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -26,7 +26,7 @@ public class SwerveModule extends SubsystemBase {
   private final RelativeEncoder m_steerIntegratedEncoder;
   private final CANCoder m_steerEncoder;
 
-  private final SparkMaxPIDController m_steerPIDController;
+  private final PIDController m_steerPIDController;
 
   private final double m_steerEncoderOffset;
 
@@ -57,16 +57,24 @@ public class SwerveModule extends SubsystemBase {
     m_steerIntegratedEncoder.setVelocityConversionFactor(positionConversionFactor / 60.0); // Gives degrees per second
     m_steerIntegratedEncoder.setPosition(m_steerEncoder.getAbsolutePosition());
 
-    m_steerPIDController = m_steerMotor.getPIDController();
+    m_steerPIDController = new PIDController(
+      Constants.DriveConstants.kSteerP,
+      Constants.DriveConstants.kSteerI,
+      Constants.DriveConstants.kSteerD
+    );
 
     m_steerEncoderOffset = steerEncoderOffset;
 
     // TODO: Set PID constants
-    m_steerPIDController.setP(Constants.DriveConstants.kSteerP);
-    m_steerPIDController.setI(Constants.DriveConstants.kSteerI);
-    m_steerPIDController.setD(Constants.DriveConstants.kSteerD);
+    // m_steerPIDController.setP(Constants.DriveConstants.kSteerP);
+    // m_steerPIDController.setI(Constants.DriveConstants.kSteerI);
+    // m_steerPIDController.setD(Constants.DriveConstants.kSteerD);
+    m_steerPIDController.enableContinuousInput(0, 360);
 
     m_modulePosition = new SwerveModulePosition();
+
+    m_driveMotor.burnFlash();
+    m_steerMotor.burnFlash();
   }
 
   private void motorInitialize(CANSparkMax motor){
@@ -113,7 +121,11 @@ public class SwerveModule extends SubsystemBase {
   public void setDesiredState(SwerveModuleState state) {
     state = SwerveModuleState.optimize(state, getSteerAngle());
     m_driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-    m_steerPIDController.setReference(state.angle.getDegrees() + m_steerEncoderOffset, CANSparkMax.ControlType.kPosition);
+    m_steerMotor.set(
+      m_steerPIDController.calculate(
+        m_steerIntegratedEncoder.getPosition(), 
+        state.angle.getDegrees() + m_steerEncoderOffset)
+    );
   }
 
   public double getAbsoluteAngle() {

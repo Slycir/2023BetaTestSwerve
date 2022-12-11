@@ -71,20 +71,20 @@ public final class Constants {
             MeasurementConstants.kWheelDiameterMeters * Math.PI; // ~ 4.6 m/s
         public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond /
             Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0); 
-        public static final double kSpeedFactor = 1.0; // Used to scale the speed of the robot
+        public static final double kSpeedFactor = 1; // Used to scale the speed of the robot
         public static final double kMaxVoltage = 12;
         public static final int kDriveCurrentLimit = 80;
         public static final int kSteerCurrentLimit = 20;
         
-        public static final double kFrontLeftEncoderOffset = 0; // Must de degrees
-        public static final double kBackLeftEncoderOffset = 0; // Must de degrees
-        public static final double kFrontRightEncoderOffset = 0; // Must de degrees
-        public static final double kBackRightEncoderOffset = 0; // Must de degrees
+        public static final double kFrontLeftEncoderOffset = 172; // Must de degrees
+        public static final double kBackLeftEncoderOffset = 122; // Must de degrees
+        public static final double kFrontRightEncoderOffset = 96.5; // Must de degrees
+        public static final double kBackRightEncoderOffset = 260; // Must de degrees
 
         // TODO: Tune PID values
-        public static final double kSteerP = 1.0;
+        public static final double kSteerP = 0.01;
         public static final double kSteerI = 0.0; // Used in module control
-        public static final double kSteerD = 0.1;
+        public static final double kSteerD = 0.0;
 
         public static final double kDriveP = 5.0;
         public static final double kDriveI = 0.0; // Used in pose control
@@ -93,6 +93,9 @@ public final class Constants {
         public static final double kTurnP = 0.5;
         public static final double kTurnI = 0.0; // Used in pose control
         public static final double kTurnD = 0.0;
+
+        public static final double kDriveTolerance = 0.01;
+        public static final double kTurnTolerance = 1.0;
 
         public static final double kAccelerationSeconds = 0.5; // 0.5 seconds to reach full speed
     }

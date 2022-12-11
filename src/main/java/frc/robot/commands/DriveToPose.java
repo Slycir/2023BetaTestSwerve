@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveToPose extends CommandBase {
@@ -40,6 +41,12 @@ public class DriveToPose extends CommandBase {
     m_xController.setSetpoint(0.0);
     m_yController.setSetpoint(0.0);
     m_turnController.setSetpoint(0.0);
+
+    m_xController.setTolerance(DriveConstants.kDriveTolerance);
+    m_yController.setTolerance(DriveConstants.kDriveTolerance);
+    m_turnController.setTolerance(DriveConstants.kTurnTolerance);
+
+    m_turnController.enableContinuousInput(0, 2 * Math.PI);;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +57,7 @@ public class DriveToPose extends CommandBase {
     m_yError = m_pose.getTranslation().getY() - m_currentPose.getTranslation().getY();
     m_turnError = m_pose.getRotation().getRadians() - m_currentPose.getRotation().getRadians();
 
-    m_drivetrain.drive(clampToMaxVelocity(m_xController.calculate(m_xError)), clampToMaxVelocity(m_yController.calculate(m_yError)), clampToMaxAngularVelocity(m_turnController.calculate(m_turnError)));
+    m_drivetrain.drive(clampToMaxVelocity(m_xController.calculate(-m_xError)), clampToMaxVelocity(m_yController.calculate(-m_yError)), clampToMaxAngularVelocity(m_turnController.calculate(-m_turnError)));
   }
 
   // Called once the command ends or is interrupted.
@@ -62,14 +69,18 @@ public class DriveToPose extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_xController.atSetpoint() && m_yController.atSetpoint() && m_turnController.atSetpoint()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public double clampToMaxVelocity(double velocity) {
-    if (velocity > DriveConstants.kMaxSpeedMetersPerSecond) {
-      return DriveConstants.kMaxSpeedMetersPerSecond;
-    } else if (velocity < -DriveConstants.kMaxSpeedMetersPerSecond) {
-      return -DriveConstants.kMaxSpeedMetersPerSecond;
+    if (velocity > DriveConstants.kMaxSpeedMetersPerSecond * Constants.DriveConstants.kSpeedFactor) {
+      return DriveConstants.kMaxSpeedMetersPerSecond * Constants.DriveConstants.kSpeedFactor;
+    } else if (velocity < -DriveConstants.kMaxSpeedMetersPerSecond * Constants.DriveConstants.kSpeedFactor) {
+      return -DriveConstants.kMaxSpeedMetersPerSecond * Constants.DriveConstants.kSpeedFactor;
     } else {
       return velocity;
     }

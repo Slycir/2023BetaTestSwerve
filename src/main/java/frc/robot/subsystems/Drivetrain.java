@@ -100,6 +100,10 @@ public class Drivetrain extends SubsystemBase {
     );
   }
 
+  public void zeroOdometry() {
+    m_odometry.resetPosition(getGyroRotation2d(), getModulePositions(), new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+  }
+
   public SwerveModulePosition[] getModulePositions(){
     return new SwerveModulePosition[]{
       m_frontLeft.getPosition(),
@@ -110,7 +114,7 @@ public class Drivetrain extends SubsystemBase {
   }
   
   public void setFieldPosition(Pose2d pose) {
-    m_odometry.resetPosition(pose, getGyroRotation2d());
+    m_odometry.resetPosition(getGyroRotation2d(), getModulePositions(), pose);
   }
 
   public Pose2d getFieldPosition() {
@@ -168,6 +172,8 @@ public class Drivetrain extends SubsystemBase {
     yController = new PIDController(Constants.DriveConstants.kDriveP, 0, 0);
     thetaController = new PIDController(Constants.DriveConstants.kTurnP, 0, 0); //Kp value, Ki=0, Kd=0
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    setFieldPosition(trajectory.getInitialHolonomicPose());
 
     PPSwerveControllerCommand swerveControllerCommand = new PPSwerveControllerCommand(
       trajectory,

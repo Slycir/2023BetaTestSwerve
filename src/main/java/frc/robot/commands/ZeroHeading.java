@@ -7,28 +7,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class ModuleCalibration extends CommandBase {
+public class ZeroHeading extends CommandBase {
 
-  private Drivetrain m_drivetrain;
-  /** Creates a new ModuleCalibration. */
-  public ModuleCalibration(Drivetrain drivetrain) {
+  Drivetrain m_Drivetrain;
+  /** Creates a new ZeroHeading. */
+  public ZeroHeading(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_drivetrain = drivetrain;
-    addRequirements(m_drivetrain);
+    m_Drivetrain = drivetrain;
+    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    // m_drivetrain.drive(0, 1, 0, false);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    // m_drivetrain.drive(0, 1, 0, false);
-    m_drivetrain.printModuleAbsoluteAngles();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
