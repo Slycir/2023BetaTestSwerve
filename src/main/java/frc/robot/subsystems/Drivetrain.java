@@ -138,6 +138,22 @@ public class Drivetrain extends SubsystemBase {
     setModuleStates(swerveModuleStates);
   }
 
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    SwerveModuleState[] swerveModuleStates =
+      m_kinematics.toSwerveModuleStates(
+        fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_odometry.getPoseMeters().getRotation()) : new ChassisSpeeds(xSpeed, ySpeed, rot)
+      );
+    
+    setModuleStates(swerveModuleStates);
+  }
+
+  public void printModuleAbsoluteAngles() {
+    System.out.println("Front Left: " + m_frontLeft.getAbsoluteAngle());
+    System.out.println("Front Right: " + m_frontRight.getAbsoluteAngle());
+    System.out.println("Back Left: " + m_backLeft.getAbsoluteAngle());
+    System.out.println("Back Right: " + m_backRight.getAbsoluteAngle());
+  }
+
   public void setModuleStates(SwerveModuleState[] states) {
     SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
 

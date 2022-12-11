@@ -116,6 +116,10 @@ public class SwerveModule extends SubsystemBase {
     m_steerPIDController.setReference(state.angle.getDegrees() + m_steerEncoderOffset, CANSparkMax.ControlType.kPosition);
   }
 
+  public double getAbsoluteAngle() {
+    return m_steerEncoder.getAbsolutePosition(); 
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
