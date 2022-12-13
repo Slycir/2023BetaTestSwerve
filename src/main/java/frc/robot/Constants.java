@@ -56,6 +56,11 @@ public final class Constants {
     
     public static final class OIConstants {
         public static final int kDriverControllerID = 0;
+        public static final int kAButtonID = 1;
+        public static final int kBButtonID = 2;
+        public static final int kXButtonID = 3;
+        public static final int kYButtonID = 4;
+
     }
     
     public static final class DriveConstants {
@@ -71,12 +76,12 @@ public final class Constants {
             MeasurementConstants.kWheelDiameterMeters * Math.PI; // ~ 4.6 m/s
         public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond /
             Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0); 
-        public static final double kSpeedFactor = 1; // Used to scale the speed of the robot
+        public static final double kSpeedFactor = 0.6; // Used to scale the speed of the robot
         public static final double kMaxVoltage = 12;
         public static final int kDriveCurrentLimit = 80;
         public static final int kSteerCurrentLimit = 20;
         
-        public static final double kFrontLeftEncoderOffset = 172; // Must de degrees
+        public static final double kFrontLeftEncoderOffset = 165; // Must de degrees
         public static final double kBackLeftEncoderOffset = 122; // Must de degrees
         public static final double kFrontRightEncoderOffset = 96.5; // Must de degrees
         public static final double kBackRightEncoderOffset = 260; // Must de degrees
