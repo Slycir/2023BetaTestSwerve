@@ -69,7 +69,7 @@ public final class Constants {
         public static final double kDriveReduction = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); // Wheel revolutions per motor revolution`
         public static final double kSteerReduction = (14.0 / 50.0) * (10.0 / 60.0); // Module revolutions per motor revolution
         
-        public static final double kDriveDeadband = 0.02;
+        public static final double kDriveDeadband = 0.2;
 
         public static final double kMaxSpeedMetersPerSecond = 5880 / 60.0 *
             kDriveReduction *

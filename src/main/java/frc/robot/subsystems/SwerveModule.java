@@ -72,10 +72,14 @@ public class SwerveModule extends SubsystemBase {
     m_steerPIDController.enableContinuousInput(0, 360);
 
     m_modulePosition = new SwerveModulePosition();
+
+    m_driveMotor.burnFlash();
+    m_steerMotor.burnFlash();
   }
 
   private void motorInitialize(CANSparkMax motor){
-    motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100);
+    motor.restoreFactoryDefaults();
+    motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 45);
     motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
     motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20);
     motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
