@@ -120,10 +120,10 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setDesiredState(SwerveModuleState state) {
-    System.out.println("Pre Optimize: " + state.speedMetersPerSecond);
+    // System.out.println("Pre Optimize: " + state.speedMetersPerSecond);
     state = SwerveModuleState.optimize(state, getSteerAngle());
-    System.out.println("Post Optimize: " + state.speedMetersPerSecond);
-    System.out.println("Setting: " + (state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond));
+    // System.out.println("Post Optimize: " + state.speedMetersPerSecond);
+    // System.out.println("Setting: " + (state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond));
     m_driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     m_steerMotor.set(
       m_steerPIDController.calculate(
