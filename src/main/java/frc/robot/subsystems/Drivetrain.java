@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -83,6 +84,11 @@ public class Drivetrain extends SubsystemBase {
     m_frontRight.reset();
     m_backLeft.reset();
     m_backRight.reset();
+  }
+
+  public double getNavxYaw() {
+    var pos = m_gyro.getYaw() % 360;
+    return pos < -180 ? pos + 360 : pos;
   }
 
   public void zeroGyro() {
@@ -190,5 +196,6 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     updateOdometry();
+    SmartDashboard.putString("Position", m_odometry.getPoseMeters().toString());
   }
 }
