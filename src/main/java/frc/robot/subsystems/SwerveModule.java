@@ -72,9 +72,6 @@ public class SwerveModule extends SubsystemBase {
     m_steerPIDController.enableContinuousInput(0, 360);
 
     m_modulePosition = new SwerveModulePosition();
-
-    m_driveMotor.burnFlash();
-    m_steerMotor.burnFlash();
   }
 
   private void motorInitialize(CANSparkMax motor){
@@ -119,7 +116,10 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setDesiredState(SwerveModuleState state) {
+    System.out.println("Pre Optimize: " + state.speedMetersPerSecond);
     state = SwerveModuleState.optimize(state, getSteerAngle());
+    System.out.println("Post Optimize: " + state.speedMetersPerSecond);
+    System.out.println("Setting: " + (state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond));
     m_driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     m_steerMotor.set(
       m_steerPIDController.calculate(

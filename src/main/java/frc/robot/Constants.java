@@ -71,9 +71,9 @@ public final class Constants {
             MeasurementConstants.kWheelDiameterMeters * Math.PI; // ~ 4.6 m/s
         public static final double kMaxAngularSpeedRadiansPerSecond = kMaxSpeedMetersPerSecond /
             Math.hypot(MeasurementConstants.kTrackWidthMeters / 2.0, MeasurementConstants.kWheelBaseMeters / 2.0); 
-        public static final double kSpeedFactor = 1; // Used to scale the speed of the robot
-        public static final double kMaxVoltage = 12;
-        public static final int kDriveCurrentLimit = 80;
+        public static final double kSpeedFactor = 0.4; // Used to scale the speed of the robot
+        public static final double kMaxVoltage = 12.0;
+        public static final int kDriveCurrentLimit = 40;
         public static final int kSteerCurrentLimit = 20;
         
         public static final double kFrontLeftEncoderOffset = 172; // Must de degrees
