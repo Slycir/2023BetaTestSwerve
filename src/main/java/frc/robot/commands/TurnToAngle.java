@@ -18,7 +18,7 @@ public class TurnToAngle extends CommandBase {
   Drivetrain m_drivetrain;
   Double targetAngle;
   DoubleSupplier m_x, m_y;
-  private PIDController turnController = new PIDController(kTurnP/9, 0, kTurnD);
+  private PIDController turnController = new PIDController(kTurnP, kTurnI, kTurnD);
   double m_xSpeed;
   double m_ySpeed;
 
@@ -53,7 +53,7 @@ public class TurnToAngle extends CommandBase {
       -m_yLimiter.calculate(MathUtil.applyDeadband(m_x.getAsDouble(), kDriveDeadband))
       * kMaxSpeedMetersPerSecond * kSpeedFactor;
 
-    var rot = -turnController.calculate(m_drivetrain.getNavxYaw());
+    var rot = -turnController.calculate(m_drivetrain.getOdoYaw());
     rot = MathUtil.clamp(rot, -kMaxSpeedMetersPerSecond * kSpeedFactor, kMaxSpeedMetersPerSecond * kSpeedFactor);
     m_drivetrain.drive(m_xSpeed, m_ySpeed, rot);
     // m_drivetrain.drive(0, 0, -rot);

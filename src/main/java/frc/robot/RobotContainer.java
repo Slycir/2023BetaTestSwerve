@@ -38,7 +38,9 @@ public class RobotContainer {
         m_drivetrain,
         () -> m_driverController.getLeftX(),
         () -> m_driverController.getLeftY(),
-        () -> m_driverController.getRightX()
+        () -> m_driverController.getRightX(),
+        () -> m_driverController.getRightTriggerAxis(),
+        () -> m_driverController.getLeftTriggerAxis() > 0.5
       )
       // new ModuleCalibration(m_drivetrain)
     );
@@ -86,6 +88,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new FollowTrajectoryWithEvents(m_drivetrain, "Test Path");
+    return new FollowTrajectoryWithEvents(m_drivetrain, "Test2");
   }
 }
