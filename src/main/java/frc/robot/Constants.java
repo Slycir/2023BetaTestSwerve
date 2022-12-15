@@ -81,10 +81,10 @@ public final class Constants {
         public static final int kDriveCurrentLimit = 40;
         public static final int kSteerCurrentLimit = 20;
         
-        public static final double kFrontLeftEncoderOffset = 165; // Must de degrees
-        public static final double kBackLeftEncoderOffset = 122; // Must de degrees
-        public static final double kFrontRightEncoderOffset = 96.5; // Must de degrees
-        public static final double kBackRightEncoderOffset = 260; // Must de degrees
+        public static final double kFrontLeftEncoderOffset = 170.06; // Must de degrees
+        public static final double kBackLeftEncoderOffset = 123.22; // Must de degrees
+        public static final double kFrontRightEncoderOffset = 97.91; // Must de degrees
+        public static final double kBackRightEncoderOffset = 258.04; // Must de degrees
 
         // TODO: Tune PID values
         public static final double kSteerP = 0.01;
