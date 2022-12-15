@@ -86,8 +86,8 @@ public class Drivetrain extends SubsystemBase {
     m_backRight.reset();
   }
 
-  public double getNavxYaw() {
-    var pos = m_gyro.getYaw() % 360;
+  public double getOdoYaw() {
+    var pos = -m_odometry.getPoseMeters().getRotation().getDegrees() % 360;
     return pos < -180 ? pos + 360 : pos;
   }
 
@@ -104,6 +104,10 @@ public class Drivetrain extends SubsystemBase {
       getGyroRotation2d(),
       getModulePositions()
     );
+  }
+
+  public SwerveDriveKinematics getKinematics(){
+    return m_kinematics;
   }
 
   public void zeroOdometry() {
@@ -193,9 +197,18 @@ public class Drivetrain extends SubsystemBase {
     return swerveControllerCommand.andThen(() -> stop());
   }
 
+  public void monitorClick() {
+    if(Math.hypot(m_gyro.getRawAccelX(), 
+      m_gyro.getRawAccelY()) 
+        > 1.8) {
+      System.out.println("Click");
+    }
+  }
+
   @Override
   public void periodic() {
     updateOdometry();
+    monitorClick();
     SmartDashboard.putString("Position", m_odometry.getPoseMeters().toString());
   }
 }
