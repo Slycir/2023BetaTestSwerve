@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.FollowTrajectoryWithEvents;
-import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.commands.DriveWithJoysticks;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,6 +29,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain m_drivetrain = new Drivetrain();
 
+  public double m_toAngle = 0.0;
+  public boolean m_PIDcontrol = false;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -40,7 +42,11 @@ public class RobotContainer {
         () -> m_driverController.getLeftY(),
         () -> m_driverController.getRightX(),
         () -> m_driverController.getRightTriggerAxis(),
-        () -> m_driverController.getLeftTriggerAxis() > 0.5
+        () -> m_driverController.getLeftTriggerAxis() > 0.5,
+        faceForwardsButton,
+        faceLeftButton,
+        faceRightButton,
+        faceBackwardsButton
       )
       // new ModuleCalibration(m_drivetrain)
     );
@@ -55,29 +61,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    faceForwardsButton.whileTrue(new TurnToAngle(m_drivetrain, 
-      0.0,
-      () -> m_driverController.getLeftX(),
-      () -> m_driverController.getLeftY()
-      ));
-    
-    faceLeftButton.whileTrue(new TurnToAngle(m_drivetrain, 
-      -90.0,
-      () -> m_driverController.getLeftX(),
-      () -> m_driverController.getLeftY()
-      ));
-    
-    faceRightButton.whileTrue(new TurnToAngle(m_drivetrain, 
-      90.0,
-      () -> m_driverController.getLeftX(),
-      () -> m_driverController.getLeftY()
-      ));
-    
-    faceBackwardsButton.whileTrue(new TurnToAngle(m_drivetrain, 
-      180.0,
-      () -> m_driverController.getLeftX(),
-      () -> m_driverController.getLeftY()
-      ));
     
   }
 
