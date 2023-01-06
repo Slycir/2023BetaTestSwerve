@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.FollowTrajectoryWithEvents;
+import frc.robot.commands.ModuleCalibration;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.commands.DriveWithJoysticks;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,19 +37,19 @@ public class RobotContainer {
   public RobotContainer() {
 
     m_drivetrain.setDefaultCommand(
-      new DriveWithJoysticks(
-        m_drivetrain,
-        () -> m_driverController.getLeftX(),
-        () -> m_driverController.getLeftY(),
-        () -> m_driverController.getRightX(),
-        () -> m_driverController.getRightTriggerAxis(),
-        () -> m_driverController.getLeftTriggerAxis() > 0.5,
-        faceForwardsButton,
-        faceLeftButton,
-        faceRightButton,
-        faceBackwardsButton
-      )
-      // new ModuleCalibration(m_drivetrain)
+      // new DriveWithJoysticks(
+        // m_drivetrain,
+        // () -> m_driverController.getLeftX(),
+        // () -> m_driverController.getLeftY(),
+        // () -> m_driverController.getRightX(),
+        // () -> m_driverController.getRightTriggerAxis(),
+        // () -> m_driverController.getLeftTriggerAxis() > 0.5,
+        // faceForwardsButton,
+        // faceLeftButton,
+        // faceRightButton,
+        // faceBackwardsButton
+      // )
+      new ModuleCalibration(m_drivetrain)
     );
     // Configure the button bindings
     configureButtonBindings();

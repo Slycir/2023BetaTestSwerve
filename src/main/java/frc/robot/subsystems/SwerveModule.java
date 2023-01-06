@@ -82,7 +82,7 @@ public class SwerveModule extends SubsystemBase {
     motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 45);
     motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
     motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20);
-    motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
     motor.enableVoltageCompensation(Constants.DriveConstants.kMaxVoltage);
     motor.setInverted(true);
   }
